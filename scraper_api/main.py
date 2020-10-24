@@ -16,9 +16,6 @@ class Scraper:
     def __init__(self, html):
         self.soup = BeautifulSoup(html, 'html.parser')
 
-    def test(self):
-        print(self.soup.prettify())
-
     def find_listings(self):
         res = []
         for listing in self.soup.findAll('li', {'class':['result-row']}):

@@ -45,6 +45,7 @@ def main(url):
     info = scraper.find_listings()
     print(info)
 
+
 if __name__ == '__main__':
     start = time.time()
     url = 'https://austin.craigslist.org/search/fua?query=bed'
@@ -62,5 +63,3 @@ if __name__ == '__main__':
         
     end = time.time()
     print(end - start)
-        
-    

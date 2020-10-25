@@ -1,2 +1,2 @@
 from app import app
-from app.utils import utils
+from app import utils

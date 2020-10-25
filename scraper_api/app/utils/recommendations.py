@@ -1,4 +1,4 @@
-import scraper
+from . import scraper
 import requests
 
 def get_recommendations(num_results=20, **kwargs):

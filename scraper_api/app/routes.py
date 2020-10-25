@@ -23,19 +23,32 @@ def get_furniture():
 @app.route('/show_furniture')
 def show_furniture():
     furniture_json = session['furniture_data']
-    data = get_recommendations(furniture_json)
+    data = recommendations.get_recommendations(furniture_json)
     return render_template('furniture.html', data=data)
 
 @app.route('/job_class', methods=['GET', 'POST'])
 def get_jobs():
     if request.method == 'POST':
-        pass
+        user_json = request.get_json()
+        session['job_data'] = user_json 
+        resp = make_response(jsonify({'redirect':'/show_jobs'}))
+        return resp 
 
 
 @app.route('/housing_class', methods=['GET', 'POST'])
 def get_housing():
     if request.method == 'POST':
-        pass
+        user_json = request.get_json()
+        session['housing_data'] = user_json 
+        resp = make_response(jsonify({'redirect':'/show_housing'}))
+
+
+@app.route('/show_jobs')
+def show_jobs():
+    if request.method == 'POST':
+        job_json = session['job_data']
+        
+
 
 @app.route('/getAll', methods=['GET', 'POST'])
 def get_all():

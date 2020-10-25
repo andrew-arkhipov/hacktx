@@ -2,10 +2,10 @@ from . import scraper
 import requests
 import collections
 
-def get_recommendations(num_results=20, **kwargs):
-    city = kwargs['city'].replace(" ", "")
-    budget = int(kwargs['budget'])
-    furnitures = kwargs['elements']
+def get_recommendations(dic, num_results=20):
+    city = dic['city'].replace(" ", "")
+    budget = int(dic['budget'])
+    furnitures = dic['elements']
 
     url = f'https://{city.lower()}.craigslist.org/search/fua?query='
     res = {}
@@ -44,5 +44,10 @@ def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_resul
     return res
 
 if __name__ == '__main__':
-    res = get_recommendations()
+    dic = {
+        "city":"Austin",
+        'elements':['chair', 'table'],
+        'budget':600
+    }
+    res = get_recommendations(dic)
     print(res)

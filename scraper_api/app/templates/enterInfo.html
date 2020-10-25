@@ -219,7 +219,7 @@
         res = []
         let furniture_elem = document.getElementsByClassName("furniture_value");
         for (var i = 0; i < furniture_elem.length; i++) {
-            res.push([furniture_elem[i].innerText, i]);
+            res.push(furniture_elem[i].innerText);
         }
         return res;
     }

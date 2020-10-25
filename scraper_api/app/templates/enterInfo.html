@@ -1,43 +1,203 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<div class="container d-flex justify-content-center mt-5">
+    <div style="border-bottom: 3px solid #2091F9;">
+        <h4 id="search-query-text" class="mr-2">
+            1. Select Search Query</h4>
+    </div>
+    <div style="border-bottom: 3px solid lightgrey;">
+        <h4 id="search-query-text" style="color: lightgrey;">2. Search Query Details</h4>
+    </div>
+</div>
+
 <div class="row h-100 w-100 align-items-center" style="min-height: 80vh;">
     <div class="container d-flex justify-content-between">
-        <div class="card" style="width: 22rem;">
+        <div class="card" style="width: 22rem;" id="search-card-main">
             <img class="card-img-top mt-4" src="{{ url_for('static', filename='couch.svg') }}" alt="Card image cap"
                 style="height: 150px; width: auto;">
             <div class="card-body">
                 <h5 class="card-title" id="search-card">Furniture</h5>
-                <p style='text-align: center;'><a href="#" class="btn btn-primary mt-5" id="nav-button"
-                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</a>
+                <p style='text-align: center;'><button class="btn btn-primary mt-5" value="furniture_class"
+                        id="nav-button" onclick="select(this.value);"
+                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</button>
                 </p>
             </div>
         </div>
-        <div class="card" style="width: 22rem;">
+        <div class="card" style="width: 22rem;" id="search-card-main">
             <img class="card-img-top mt-4" src="{{ url_for('static', filename='job.svg') }}" alt="Card image cap"
                 style="height: 150px; width: auto;">
             <div class="card-body">
                 <h5 class="card-title" id="search-card">Job Opportunities</h5>
-                <p style='text-align: center;'><a href="#" class="btn btn-primary mt-5" id="nav-button"
-                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</a>
+                <p style='text-align: center;'><button class="btn btn-primary mt-5" value="job_class" id="nav-button"
+                        onclick="select(this.value);"
+                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</button>
                 </p>
             </div>
         </div>
-        <div class="card" style="width: 22rem;">
+        <div class="card" style="width: 22rem;" id="search-card-main">
             <img class="card-img-top mt-4" src="{{ url_for('static', filename='house.svg') }}" alt="Card image cap"
                 style="height: 150px; width: auto;">
             <div class="card-body">
                 <h5 class="card-title" id="search-card">Available Housing</h5>
-                <p style='text-align: center;'><a href="#" class="btn btn-primary mt-5" id="nav-button"
-                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</a>
+                <p style='text-align: center;'><button class="btn btn-primary mt-5" value="housing_class"
+                        id="nav-button" onclick="select(this.value);"
+                        style="color: white; padding: 12px; padding-left: 16px; padding-right: 16px; font-size: 12px;">Search</button>
                 </p>
             </div>
         </div>
     </div>
 </div>
 
+<div class="container d-flex justify-content-center mt-5 query-card" id="furniture_class">
+    <div class="card w-100 search-class">
+        <div class="body">
+            <div class="container d-flex justify-content-center mb-3">
+                <div style="border-bottom: 3px solid lightgrey;">
+                    <h4 id="search-query-text" class="mr-2" style="color: lightgrey;">
+                        1. Select Search Query</h4>
+                </div>
+                <div style="border-bottom: 3px solid#2091F9;">
+                    <h4 id="search-query-text">2. Search Query Details</h4>
+                </div>
+            </div>
+            <div class="row h-100 w-100 d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+                <div class="col-md-6">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="furniture_class_city">City</label>
+                                    <input id="furniture_class_city" class="form-control" placeholder="Enter City">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="furniture_class_zip_code">Zip Code</label>
+                                <input id="furniture_class_zip_code" placeholder="Enter Zip Code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="furniture_class_budget">Budget</label>
+                            <input id="furniture_class_budget" class="form-control" placeholder="Add Budget">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <label for="furniture_input">Furniture</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="furniture_div"></div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter Furniture" id="furniture_input">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button"
+                                    style="font-size: 13px; border-radius: 0px;" onclick="add_furniture();">Add</button>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid d-flex justify-content-center">
+                                <button class="btn btn-primary mt-3 submit-button"
+                                    onclick="submit('furniture_class')">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container d-flex justify-content-center mt-5 query-card" id="housing_class">
+    <div class="card w-100 search-class">
+        <div class="body">
+            <div class="container d-flex justify-content-center">
+                <div style="border-bottom: 3px solid lightgrey;">
+                    <h4 id="search-query-text" class="mr-2" style="color: lightgrey;">
+                        1. Select Search Query</h4>
+                </div>
+                <div style="border-bottom: 3px solid#2091F9;">
+                    <h4 id="search-query-text">2. Search Query Details</h4>
+                </div>
+            </div>
+            <div class="row h-100 w-100 d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+                <div class="col-md-6">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="housing_class_city">City</label>
+                                    <input id="housing_class_city" class="form-control" placeholder="Enter City">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="housing_class_zip_code">Zip Code</label>
+                                <input id="housing_class_zip_code" placeholder="Enter Zip Code" class="form-control">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="housing_class_budget">Budget</label>
+                            <input id="housing_class_budget" class="form-control" placeholder="Add Budget">
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid d-flex justify-content-center">
+                                <button class="btn btn-primary mt-3 submit-button"
+                                    onclick="submit('housing_class')">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container d-flex justify-content-center mt-5 query-card" id="job_class">
+    <div class="card w-100 search-class">
+        <div class="body">
+            <div class="container d-flex justify-content-center">
+                <div style="border-bottom: 3px solid lightgrey;">
+                    <h4 id="search-query-text" class="mr-2" style="color: lightgrey;">
+                        1. Select Search Query</h4>
+                </div>
+                <div style="border-bottom: 3px solid#2091F9;">
+                    <h4 id="search-query-text">2. Search Query Details</h4>
+                </div>
+            </div>
+            <div class="row h-100 w-100 d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+                <div class="col-md-6">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="job_class_city">City</label>
+                                    <input id="job_class_city" class="form-control" placeholder="Enter City">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="job_class_zip_code">Zip Code</label>
+                                <input id="job_class_zip_code" placeholder="Enter Zip Code" class="form-control">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="job_class_role">Preferred Role</label>
+                            <input id="job_class_role" class="form-control" placeholder="Add Role">
+                        </div>
+                        <div class="row">
+                            <div class="container-fluid d-flex justify-content-center">
+                                <button class="btn btn-primary mt-3 submit-button"
+                                    onclick='submit("job_class")'>Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block script %}
+
 <script>
     function sendData() {
         let URL = '/processInfo'
@@ -54,5 +214,62 @@
         post(URL, data);
 
     }
+
+    function get_furniture() {
+        res = []
+        let furniture_elem = document.getElementsByClassName("furniture_value");
+        for (var i = 0; i < furniture_elem.length; i++) {
+            res.push([furniture_elem[i].innerText, i]);
+        }
+        return res;
+    }
+
+    var previous = null;
+
+    function select(id) {
+        let elem = document.getElementById(id);
+        elem.setAttribute('style', 'display: block !important');
+        if (previous && previous != id) {
+            let prev = document.getElementById(previous);
+            prev.setAttribute('style', 'display: none !important');
+        }
+        previous = id;
+    }
+
+    function submit(id) {
+        const rel_data = {
+            'furniture_class': ['city', 'zip_code', 'budget'],
+            'job_class': ['city', 'zip_code', 'role'],
+            'housing_class': ['city', 'zip_code', 'budget']
+        }
+        let parent = document.getElementById(id);
+        let data = {}
+
+        let id_array = rel_data[id];
+        for (var i = 0; i < id_array.length; i++) {
+            let curr = id_array[i];
+            let curr_id = id + '_' + curr
+            let curr_elem = document.getElementById(curr_id).value;
+            data[curr] = curr_elem;
+        }
+        if (id == 'furniture_class') {
+            data['elements'] = get_furniture()
+        }
+
+        post(id, data);
+
+    }
+
+    function add_furniture() {
+        let furniture_div = document.getElementById('furniture_div');
+        let furniture_value = document.getElementById('furniture_input').value;
+        if (furniture_value) {
+            let elem = document.createElement('div');
+            elem.innerHTML = `<button class="btn mt-2 mb-2 furniture_value" id="furniture_button">${furniture_value}</button>`
+            furniture_div.appendChild(elem);
+            document.getElementById('furniture_input').value = "";
+        }
+    }
+
 </script>
 {% endblock %}

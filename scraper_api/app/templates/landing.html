@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="jumbotron" style="background-color: white;">
+<div class="jumbotron" style="background-color: white; border-bottom: 2px solid whitesmoke">
     <div class="container d-flex justify-content-center">
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -9,7 +9,8 @@
                     <h1 id="title-brand" style="font-weight: 500; font-size: 48px;">What can we <b
                             id="bold-sub">Fetch</b> for
                         you?</h1>
-                    <p id="sub-brand" class="mt-4">Fill out your information and search no more</p>
+                    <p id="sub-brand" class="mt-4">AI powered search engine that streamlines the relocation process for
+                        displaced families.</p>
                     <a id="nav-button" style="background-color: #2091f9; color: white; font-size: 20px;"
                         class="btn mt-4" href="/enterInfo">Get Started</a>
                 </div>
@@ -22,37 +23,35 @@
 </div>
 
 <div class="container d-flex justify-content-between">
-    
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="row h-100 w-100 align-items-center" style="min-height: 80vh;">
+        <div class="container d-flex justify-content-between">
+            <div class="card" style="width: 22rem;" id="search-card-main">
+                <img class="card-img-top mt-4" src="{{ url_for('static', filename='couch.svg') }}" alt="Card image cap"
+                    style="height: 150px; width: auto;">
+                <div class="card-body">
+                    <h5 class="card-title" id="search-card">Furniture</h5>
+                    <p class="card-text">Our powerful ranking algorithm returns the best valued furniture given your
+                        price constraints.</p>
+                </div>
+            </div>
+            <div class="card" style="width: 22rem;" id="search-card-main">
+                <img class="card-img-top mt-4" src="{{ url_for('static', filename='job.svg') }}" alt="Card image cap"
+                    style="height: 150px; width: auto;">
+                <div class="card-body">
+                    <h5 class="card-title" id="search-card">Job Opportunities</h5>
+                    <p class="card-text">Find a job quickly by querying our spam filtered job postings</p>
+                </div>
+            </div>
+            <div class="card" style="width: 22rem;" id="search-card-main">
+                <img class="card-img-top mt-4" src="{{ url_for('static', filename='house.svg') }}" alt="Card image cap"
+                    style="height: 150px; width: auto;">
+                <div class="card-body">
+                    <h5 class="card-title" id="search-card">Available Housing</h5>
+                    <p class="card-text">Use our advanced scraper to find affordable housing near your location.</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-
 </div>
 {% endblock %}
 {% block script %}

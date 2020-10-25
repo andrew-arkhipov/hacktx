@@ -9,7 +9,7 @@
     font-family: 'Montserrat', sans-serif; 
     font-size: 45px;
     color: black;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 #bold-sub{
@@ -18,7 +18,7 @@
 
 #sub-brand{
     font-family: 'Roboto', sans-serif; 
-    font-weight: 400; 
+    font-weight: 300; 
     color: gray; 
     font-size: 28px;
 }
@@ -36,13 +36,65 @@
     font-size: 16px; 
 }
 
-.card {
+#search-card-main {
     border: 2px solid whitesmoke;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
     transition: 0.3s;
     border-radius: 20px;
 }
 
-.card:hover {
+#search-card-main:hover {
     box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.25);
+}
+
+.search-class{
+    border: none; 
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.search-class input{
+    font-size: 12px;
+    font-weight: 400;
+    color: lightgrey;
+    border-radius: 0px;
+}
+
+.submit-button{
+    padding: 10px;
+    padding-left: 17px;
+    padding-right: 17px;
+    border-radius: 12px;
+    font-weight: 600; 
+    font-size: 12px;
+}
+
+#search-query-text{
+    font-size: 16px;
+    font-weight: 600;
+    color: #2091F9;
+}
+
+.query-card{
+    display: none !important;
+}
+
+#furniture_button{
+    border-radius: 12px; 
+    background-color: whitesmoke;
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 12px; 
+    font-weight: 600;
+}
+
+#furniture_div{
+    display: inline-block;
+}
+
+.card-text{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
 }

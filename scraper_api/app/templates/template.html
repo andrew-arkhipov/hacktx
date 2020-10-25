@@ -18,7 +18,15 @@
 </head>
 
 <body>
-    <div id="error"></div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <p>{{ messages }}</p>
+        <hr>
+    </div>
+    {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

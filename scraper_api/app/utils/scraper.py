@@ -16,27 +16,27 @@ class Listing:
         return cls(ref)
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def title(self):
         return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True).text
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def href(self):
         return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True)['href']
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def time(self):
         return self.ref.find('time', {'class':['result-date']})['title']
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def price(self):
         return self.ref.find('span', {'class':['result-price']}).text
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def body(self):
         html = requests.get(self.href).text
         scraper = BeautifulSoup(html, 'html.parser')
@@ -44,7 +44,7 @@ class Listing:
         return body.text
 
     @property
-    @lru_cache
+    @lru_cache(maxsize=None)
     def info(self):
         return self.title, self.href, self.price, self.time
 

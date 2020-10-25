@@ -48,6 +48,19 @@ class Listing:
     def info(self):
         return self.title, self.href, self.price, self.time
 
+class Housing(Listing): 
+    def __init__(self, ref):
+        super().__init__(ref)
+
+    def __repr__(self):
+        return f"{self.title}\n{self.href}\n{self.price}\n{self.square_foot}"
+    
+    @property
+    @lru_cache(maxsize=None)
+    def square_foot(self):
+        res = self.ref.find('span', {'class':['housing']}).text
+        print(res)
+        return res
 
 class Scraper:
     def __init__(self, html):
@@ -57,6 +70,10 @@ class Scraper:
         res = list(map(Listing.create_listing, self.soup.findAll('li', {'class': ['result-row']})))
         return res
 
+    def find_housing(self):
+        res = list(map(Housing.create_listing, self.soup.findAll('li', {'class':['result-row']})))
+        return res
+
 
 def get_body(listing):
     return listing.body
@@ -64,13 +81,11 @@ def get_body(listing):
 
 if __name__ == '__main__':
     start = time.time()
-    url = 'https://austin.craigslist.org/search/fua?query=bed'
+    url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
     scraper = Scraper(html)
     listing_array = scraper.find_listings()
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        bodies = list(executor.map(get_body, listing_array))
-        
+
     end = time.time()
     print(end - start)

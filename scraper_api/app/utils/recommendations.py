@@ -2,21 +2,23 @@ from . import scraper
 import requests
 import collections
 
-def get_recommendations(dic, num_results=20):
+def get_recommendations(dic, num_results=5):
     city = dic['city'].replace(" ", "")
     budget = int(dic['budget'])
     furnitures = dic['elements']
 
     url = f'https://{city.lower()}.craigslist.org/search/fua?query='
-    res = {}
+    res = collections.defaultdict(dict)
     for item in furnitures:
-        html = requests.get(url + item).text
+        html = requests.get(url + str(item)).text
         s = scraper.Scraper(html)
         info = s.find(scraper.CraigslistListing)
         sorted_info = sorted(info)
-        relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))
-        descriptions = [tag.info for tag in relevant_info]
-        res[item] = descriptions[:num_results]
+        relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))[:num_results]
+        for tag in relevant_info:
+            info = tag.info
+            for k, v in info.items():
+                res[item][k] = v
 
     ''' Budget calculation - Same number of items per category as long as under budget '''
     idx = 0
@@ -24,11 +26,11 @@ def get_recommendations(dic, num_results=20):
     while (idx < num_results):
         total = 0
         for item in res.keys():
-            total += int(res[item]['price'])
+            total += float(res[item]['price'].lstrip('$'))
         if total > budget:
             break
         for item in res:
-            for k, v in item.items():
+            for k, v in res[item].items():
                 budget_res[item][k] = v
         idx += 1
 
@@ -45,9 +47,9 @@ def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_resul
 
 if __name__ == '__main__':
     dic = {
-        "city":"Austin",
-        'elements':['chair', 'table'],
-        'budget':600
+        'city': 'Austin',
+        'budget': '600',
+        'elements': ['table', 'chair', 'bed']
     }
     res = get_recommendations(dic)
     print(res)

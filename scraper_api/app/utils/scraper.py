@@ -26,18 +26,43 @@ class Scraper:
 
     def find(self, cls):
         res = []
-        for tag in self.soup.findAll(cls.TAG, {'class': [cls.CLASS]}):
+        for tag in self.soup.find_all(cls.TAG, {'class': [cls.CLASS]}):
             res.append(cls(tag))
         return res
 
 
-class JobPosting:
+class JobPosting(InfoMixin):
 
     TAG = 'div'
-    CLASS = 'jobsearch-SerpJobCard unifiedRow row result clickcard'
+    CLASS = 'jobsearch-SerpJobCard unifiedRow row result'
 
     def __init__(self, ref):
         self.ref = ref
+
+    @property
+    @lru_cache(maxsize=None)
+    def title(self):
+        return self.ref.find('a')['title']
+
+    @property
+    @lru_cache(maxsize=None)
+    def href(self):
+        return f"https://www.indeed.com{self.ref.find('a')['href']}"
+
+    @property
+    @lru_cache(maxsize=None)
+    def salary(self):
+        return self.ref.find('span', {'class': 'salaryText'}).text.lstrip().rstrip()
+
+    @property
+    @lru_cache(maxsize=None)
+    def company(self):
+        return self.ref.find('a', {'data-tn-element': 'companyName'}).text.lstrip().rstrip()
+
+    @property
+    @lru_cache(maxsize=None)
+    def info(self):
+        return super().info
 
 
 class CraigslistListing(InfoMixin):
@@ -118,7 +143,13 @@ class Housing(CraigslistListing):
         return super().info
 
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
+    url = 'https://www.indeed.com/jobs?q=No+Experience&l=78705'
+    html = requests.get(url).text
+    scraper = Scraper(html)
+    listing_array = scraper.find(JobPosting)
+    print(listing_array[0].info)
+    '''
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
@@ -127,3 +158,4 @@ if __name__ == '__main__':
     print(listing_array)
     end = time.time()
     print(end - start)
+    '''

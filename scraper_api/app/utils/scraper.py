@@ -1,6 +1,6 @@
 import requests
 import time
-import datetime
+from datetime import datetime
 import concurrent.futures
 from bs4 import BeautifulSoup 
 from functools import lru_cache
@@ -68,6 +68,11 @@ class CraigslistListing(InfoMixin):
     @lru_cache(maxsize=None)
     def time(self):
         return self.ref.find('time', {'class':['result-date']})['title']
+    
+    @property
+    @lru_cache(maxsize=None)
+    def time_ts(self):
+        return datetime.strptime("2020 " + self.time, "%Y %a %d %b %H:%M:%S %p")
 
     @property
     @lru_cache(maxsize=None)
@@ -83,6 +88,11 @@ class CraigslistListing(InfoMixin):
     @lru_cache(maxsize=None)
     def price(self):
         return self.ref.find('span', {'class':['result-price']}).text
+
+    @property
+    @lru_cache(maxsize=None)
+    def price_int(self):
+        return int(self.price[1:].replace(',',''))
 
     @property
     @lru_cache(maxsize=None)
@@ -122,7 +132,8 @@ if __name__ == '__main__':
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
-    scraper = Scraper(html)
-    listing_array = scraper.find(CraigslistListing)
+    scraper = CraigslistScraper(html)
+    listing_array = scraper.find(Housing)
+    print(listing_array)
     end = time.time()
     print(end - start)

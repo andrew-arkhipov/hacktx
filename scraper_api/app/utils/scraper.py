@@ -1,7 +1,6 @@
 import requests
 import time
 from datetime import datetime
-import concurrent.futures
 from bs4 import BeautifulSoup 
 from functools import lru_cache
 

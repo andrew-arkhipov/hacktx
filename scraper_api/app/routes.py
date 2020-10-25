@@ -12,13 +12,32 @@ def enter_info():
     return render_template('enterInfo.html')
 
 
-@app.route('/processInfo')
-def process_info():
+@app.route('/getFurniture' methods=['GET', 'POST'])
+def get_furniture():
     if request.method == 'POST':
         user_json = request.get_json()
-        location = user_json["location"]
-        family_number = user_json["family_number"]
-        income = user_json["income"]
+        furniture_array = user_json["furniture_array"]
+        city = user_json["city"]
+        zip_code = user_json["zip_code"]
+
+
+@app.route('/getJobs', methods=['GET', 'POST'])
+def get_jobs():
+    if request.method == 'POST':
+        pass
+
+
+@app.route('/getHousing' methods=['GET', 'POST'])
+def get_housing():
+    if request.method == 'POST':
+        pass 
+
+
+@app.route('/getAll' methods=['GET', 'POST'])
+def get_all():
+    if request.method == 'POST':
+        pass
+
 
 
 

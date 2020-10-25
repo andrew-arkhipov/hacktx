@@ -2,7 +2,7 @@ import requests
 import time
 import concurrent.futures
 from bs4 import BeautifulSoup 
-from functools import cached_property
+from functools import lru_cache
 
 class Listing: 
     def __init__(self, ref):
@@ -15,30 +15,36 @@ class Listing:
     def create_listing(cls, ref):
         return cls(ref)
 
-    @cached_property
+    @property
+    @lru_cache
     def title(self):
         return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True).text
 
-    @cached_property
+    @property
+    @lru_cache
     def href(self):
         return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True)['href']
 
-    @cached_property
+    @property
+    @lru_cache
     def time(self):
         return self.ref.find('time', {'class':['result-date']})['title']
 
-    @cached_property
+    @property
+    @lru_cache
     def price(self):
         return self.ref.find('span', {'class':['result-price']}).text
 
-    @cached_property
+    @property
+    @lru_cache
     def body(self):
         html = requests.get(self.href).text
         scraper = BeautifulSoup(html, 'html.parser')
         body = scraper.find('section', {'id':['postingbody']})
         return body.text
 
-    @cached_property
+    @property
+    @lru_cache
     def info(self):
         return self.title, self.href, self.price, self.time
 

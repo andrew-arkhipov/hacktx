@@ -44,7 +44,11 @@ class JobPosting(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def title(self):
-        return self.ref.find('a')['title']
+        try: 
+            title_text = self.ref.find('a')['title']
+        except:
+            title_text = ''
+        return title_text
 
     @property
     @lru_cache(maxsize=None)
@@ -54,8 +58,9 @@ class JobPosting(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def salary(self):
-        return self.ref.find('span', {'class': 'salaryText'}).text.strip()
-
+        salary_text = self.ref.find('span', {'class': 'salaryText'})
+        return salary_text.text.strip() if salary_text != None else ''
+    
     @lru_cache(maxsize=None)
     def company(self):
         return self.ref.find('a', {'data-tn-element': 'companyName'}).text.strip()

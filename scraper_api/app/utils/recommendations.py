@@ -35,10 +35,10 @@ def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_resul
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode
     html = requests.get(url).text
     s = scraper.Scraper(html)
-    listing_array = s.find(scraper.JobPosting)
+    listing_array = sorted(s.find(scraper.JobPosting))
     num_results = len(listing_array) if num_results > len(listing_array) else num_results
     res = list(map(lambda x : x.info, listing_array[:num_results]))
-    # print(res)
+    return res
 
 if __name__ == '__main__':
     get_job_recommendations()

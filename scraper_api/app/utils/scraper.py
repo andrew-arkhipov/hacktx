@@ -39,7 +39,7 @@ class JobPosting(InfoMixin):
         self.ref = ref
     
     def __lt__(self, other):
-        return int(self.salary) < int(other.salary)
+        return self._salary > other._salary
 
     @property
     @lru_cache(maxsize=None)

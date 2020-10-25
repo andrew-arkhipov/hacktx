@@ -7,7 +7,6 @@ from functools import lru_cache
 
 
 class InfoMixin:
-    @property
     def info(self):
         res = {}
         for k in dir(self):
@@ -62,7 +61,7 @@ class JobPosting(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def info(self):
-        return super().info
+        return super().info()
 
 
 class CraigslistListing(InfoMixin):
@@ -120,7 +119,7 @@ class CraigslistListing(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def info(self):
-        return super().info
+        return super().info()
 
 
 class Housing(CraigslistListing): 
@@ -140,7 +139,7 @@ class Housing(CraigslistListing):
     @property
     @lru_cache(maxsize=None)
     def info(self):
-        return super().info
+        return super().info()
 
 
 if __name__ == '__main__':

@@ -82,6 +82,11 @@ class CraigslistScraper(Scraper):
         return res
 
 
+class IndeedScraper(Scraper):
+    def __init__(self, html):
+        super().__init__(html)
+
+
 if __name__ == '__main__':
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'

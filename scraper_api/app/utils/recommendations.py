@@ -10,7 +10,7 @@ def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair']
 		s = scraper.Scraper(html)
 		info = s.find(scraper.CraigslistListing)
 		sorted_info = sorted(info)
-		relevant_info = list(filter(lambda x: x.price_int > 5, sorted_info))
+		relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))
 		res[item] = relevant_info[:num_results]
 
 	''' Budget calculation - Same number of items per category as long as under budget '''
@@ -19,7 +19,7 @@ def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair']
 	while (idx < num_results):
 		total = 0
 		for item in res:
-			total += res[item][idx].price_int
+			total += res[item][idx]._price_int
 		if total > budget:
 			break
 		for item in res:
@@ -28,6 +28,7 @@ def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair']
 			else:
 				budget_res[item] = [res[item][idx]]
 		idx += 1
+
 	return budget_res
 
 if __name__ == '__main__':

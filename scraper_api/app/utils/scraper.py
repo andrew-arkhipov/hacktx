@@ -37,6 +37,9 @@ class JobPosting(InfoMixin):
 
     def __init__(self, ref):
         self.ref = ref
+    
+    def __lt__(self, other):
+        return int(self.salary) < int(other.salary)
 
     @property
     @lru_cache(maxsize=None)
@@ -53,7 +56,6 @@ class JobPosting(InfoMixin):
     def salary(self):
         return self.ref.find('span', {'class': 'salaryText'}).text.strip()
 
-    @property
     @lru_cache(maxsize=None)
     def company(self):
         return self.ref.find('a', {'data-tn-element': 'companyName'}).text.strip()
@@ -125,6 +127,9 @@ class CraigslistListing(InfoMixin):
 class Housing(CraigslistListing): 
     def __init__(self, ref):
         super().__init__(ref)
+
+    def __lt__(self, other):
+        return self.price < other.price
 
     def __repr__(self):
         return f"{self.title}\n{self.href}\n{self.price}\n{self.square_foot}"

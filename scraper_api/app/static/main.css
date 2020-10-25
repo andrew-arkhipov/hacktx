@@ -22,3 +22,27 @@
     color: gray; 
     font-size: 28px;
 }
+
+#search-card{
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 600;
+    text-align: center; 
+}
+
+#search-cat {
+    border-radius: 12px; 
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 700;
+    font-size: 16px; 
+}
+
+.card {
+    border: 2px solid whitesmoke;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    border-radius: 20px;
+}
+
+.card:hover {
+    box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.25);
+}

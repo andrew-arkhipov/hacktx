@@ -28,6 +28,22 @@
     </div>
     {% endif %}
     {% endwith %}
+    <nav class="navbar sticky-top d-flex align-items-center"
+        style="background-color: white; border-bottom: 2px solid whitesmoke">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <h1 id="title-brand">
+                    <img src="{{ url_for('static', filename='paper_airplane.png') }}" style="height: 50px; width: auto;"
+                        class="mr-2">Fetch</h1>
+            </a>
+            <div>
+                <button class="btn ml-2 mr-2" id="nav-button"><span class="ml-3 mr-3"></span>Home</button>
+                <button class="btn ml-2 mr-2" id="nav-button"><span class="ml-3 mr-3">Documentation</span></button>
+                <button class="btn ml-2 mr-2" id="nav-button" style="background-color:#2091F9; color: white;"><span
+                        class="ml-3 mr-3">Get Started</span></button>
+            </div>
+        </div>
+    </nav>
     {% block content %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -1,7 +1,6 @@
 import requests
 import time
 from datetime import datetime
-import concurrent.futures
 from bs4 import BeautifulSoup 
 from functools import lru_cache
 
@@ -39,7 +38,7 @@ class JobPosting(InfoMixin):
         self.ref = ref
     
     def __lt__(self, other):
-        return int(self.salary) < int(other.salary)
+        return self._salary > other._salary
 
     @property
     @lru_cache(maxsize=None)
@@ -60,6 +59,15 @@ class JobPosting(InfoMixin):
     def salary(self):
         salary_text = self.ref.find('span', {'class': 'salaryText'})
         return salary_text.text.strip() if salary_text != None else ''
+    
+    @property
+    @lru_cache(maxsize=None)
+    def _salary(self):
+        try: 
+            salary = float(self.salary.split(' ')[0][1:])
+        except:
+            salary = 0
+        return salary
     
     @lru_cache(maxsize=None)
     def company(self):

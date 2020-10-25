@@ -18,7 +18,7 @@ def get_recommendations(dic, num_results=20):
         relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))[:num_results]
         for tag in sorted_info[:num_results]:
             info = tag.info
-            res[item].append(info)
+            res[item].append(relevant_info)
 
     ''' Budget calculation - Same number of items per category as long as under budget '''
     idx = 0

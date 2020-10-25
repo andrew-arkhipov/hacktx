@@ -86,11 +86,6 @@ class CraigslistListing(InfoMixin):
 
     @property
     @lru_cache(maxsize=None)
-    def price_int(self):
-        return int(self.price[1:].replace(',',''))
-
-    @property
-    @lru_cache(maxsize=None)
     def body(self):
         html = requests.get(self.href).text
         scraper = BeautifulSoup(html, 'html.parser')

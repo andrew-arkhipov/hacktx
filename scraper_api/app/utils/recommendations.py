@@ -7,7 +7,7 @@ def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair']
 	res = {}
 	for item in furnitures:
 		html = requests.get(url + item).text
-		s = scraper.CraigslistScraper(html)
+		s = scraper.Scraper(html)
 		info = s.find(scraper.CraigslistListing)
 		sorted_info = sorted(info)
 		relevant_info = list(filter(lambda x: x.price_int > 0, sorted_info))

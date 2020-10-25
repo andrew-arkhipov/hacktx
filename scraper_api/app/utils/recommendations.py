@@ -23,13 +23,13 @@ def get_recommendations(num_results=20, **kwargs):
     budget_res = collections.defaultdict(dict)
     while (idx < num_results):
         total = 0
-        for item in res:
-            total += res[item][idx]._price_int
+        for item in res.keys():
+            total += int(res[item]['price'])
         if total > budget:
             break
         for item in res:
-            for desc in item:
-                budget_res[item][desc] = res[item][desc]
+            for k, v in item.items():
+                budget_res[item][k] = v
         idx += 1
 
     return budget_res

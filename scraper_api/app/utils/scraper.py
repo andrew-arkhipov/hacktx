@@ -11,10 +11,6 @@ class Listing:
     def __repr__(self):
         return f"{self.title}\n{self.href}\n{self.price}"
 
-    @classmethod
-    def create_listing(cls, ref):
-        return cls(ref)
-
     @property
     @lru_cache(maxsize=None)
     def title(self):
@@ -66,12 +62,10 @@ class Scraper:
     def __init__(self, html):
         self.soup = BeautifulSoup(html, 'html.parser')
 
-    def find_listings(self):
-        res = list(map(Listing.create_listing, self.soup.findAll('li', {'class': ['result-row']})))
-        return res
-
-    def find_housing(self):
-        res = list(map(Housing.create_listing, self.soup.findAll('li', {'class':['result-row']})))
+    def find_type(self, cls):
+        res = []
+        for tag in self.soup.findAll('li', {'class': ['result-row']}):
+            res.append(cls(tag))
         return res
 
 
@@ -84,8 +78,6 @@ if __name__ == '__main__':
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
     scraper = Scraper(html)
-    listing_array = scraper.find_listings()
-
-
+    listing_array = scraper.find_type(Listing)
     end = time.time()
     print(end - start)

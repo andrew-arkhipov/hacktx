@@ -168,7 +168,7 @@ class Housing(CraigslistListing):
     @lru_cache(maxsize=None)
     def info(self):
         '''Returns every attribute labeled with as a property'''
-        return super().info()
+        return super().info
 
 
 if __name__ == '__main__':

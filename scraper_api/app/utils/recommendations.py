@@ -3,41 +3,65 @@ import requests
 import collections
 import json
 
-def get_recommendations(dic, num_results=5):
+def get_recommendations(dic, num_results=10):
     city = dic['city'].replace(" ", "")
     budget = int(dic['budget'])
     furnitures = dic['elements']
 
     url = f'https://{city.lower()}.craigslist.org/search/fua?query='
-    res = collections.defaultdict(dict)
+    res = collections.defaultdict(list)
     for item in furnitures:
         html = requests.get(url + str(item)).text
         s = scraper.Scraper(html)
         info = s.find(scraper.CraigslistListing)
         sorted_info = sorted(info)
         relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))[:num_results]
-        for tag in relevant_info:
+        for tag in sorted_info[:num_results]:
             info = tag.info
-            for k, v in info.items():
-                res[item][k] = v
+            res[item].append(info)
 
     ''' Budget calculation - Same number of items per category as long as under budget '''
     idx = 0
-    budget_res = collections.defaultdict(dict)
+    budget_res = {}
     while (idx < num_results):
         total = 0
         for item in res.keys():
-            total += float(res[item]['price'].lstrip('$'))
+            total += float(res[item][idx]['price'].lstrip('$'))
         if total > budget:
             break
         for item in res:
-            for k, v in res[item].items():
-                budget_res[item][k] = str(v)
+            record = {}
+            for k, v in res[item][idx].items():
+                record[k] = str(v)
+            if item in budget_res:
+                budget_res[item].append(record)
+            else:
+                budget_res[item] = [record]
         idx += 1
 
     return json.dumps(budget_res)
 
-def get_job_recommendations(dic, num_results=10):
+
+def get_housing_recommendations(dic, num_results=5):
+    city = dic['city'].replace(" ", "")
+    zipcode = dic['zipcode'].replace(" ", "")
+    budget = dic['budget']
+
+    url = f'https://{city.lower()}.craigslist.org/search/apa?postal={zipcode}&maxprice={budget}'
+    html = requests.get(url).text
+    s = scraper.Scraper(html)
+    tags = s.find(scraper.Housing)
+
+    res = {'apartments': []}
+    i = 0
+    while i < num_results:
+        info = tags[i].info
+        res['apartments'].append({k: str(v) for k, v in info.items()})
+        i += 1
+
+    return json.dumps(res)
+
+def get_job_recommendations(dic, num_results=5):
     job_type = dic['role']
     zipcode = dic['zip_code']
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode
@@ -51,8 +75,10 @@ def get_job_recommendations(dic, num_results=10):
 if __name__ == '__main__':
     dic = {
         'city': 'Austin',
+        'zipcode': '78705',
         'budget': '600',
-        'elements': ['table', 'chair', 'bed']
+        'elements': ['table', 'chair']
     }
-    res = get_recommendations(dic)  
+    #res = get_housing_recommendations(dic)  
+    res = get_recommendations(dic)
     print(res)

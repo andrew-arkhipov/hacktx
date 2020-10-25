@@ -88,7 +88,7 @@ class CraigslistListing(InfoMixin):
         self.ref = ref
 
     def __repr__(self):
-        return f"{self.title}\n{self.href}\n{self.price}"
+        return f"{self.title}\n{self.href}\n{self.price}\n"
 
     def __lt__(self, other):
         return (self._price_int * -1, self._time_ts) > (other._price_int * -1, other._time_ts)
@@ -130,6 +130,16 @@ class CraigslistListing(InfoMixin):
         scraper = BeautifulSoup(html, 'html.parser')
         body = scraper.find('section', {'id':['postingbody']})
         return body.text
+
+
+    @property
+    @lru_cache(maxsize=None)
+    def image_href(self):
+        html = requests.get(self.href).text
+        scraper = BeautifulSoup(html, 'html.parser')
+        image_tag = scraper.findAll('img')
+        return None if not image_tag else image_tag[0]['src']
+        
 
     @property
     @lru_cache(maxsize=None)

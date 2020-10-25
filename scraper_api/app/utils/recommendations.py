@@ -1,9 +1,12 @@
 import scraper
 import requests
 
-def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair'], num_results=20):
-    # url = 'https://austin.craigslist.org/search/apa?query=low income'
-    url = 'https://austin.craigslist.org/search/fua?query='
+def get_recommendations(num_results=20, **kwargs):
+    city = kwargs['city'].replace(" ", "")
+    budget = int(kwargs['budget'])
+    furnitures = kwargs['elements']
+
+    url = f'https://{city.lower()}.craigslist.org/search/fua?query='
     res = {}
     for item in furnitures:
         html = requests.get(url + item).text
@@ -41,4 +44,5 @@ def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_resul
     return res
 
 if __name__ == '__main__':
-    get_job_recommendations()
+    res = get_recommendations()
+    print(res)

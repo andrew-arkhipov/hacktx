@@ -1,6 +1,6 @@
 from app import app 
-from flask import render_template, request
-from app.utils import scraper
+from flask import render_template, request, redirect, url_for, session, make_response, jsonify
+from app.utils import recommendations
 
 @app.route('/')
 def home():
@@ -16,12 +16,15 @@ def enter_info():
 def get_furniture():
     if request.method == 'POST':
         user_json = request.get_json()
-        furniture_array = user_json["elements"]
-        city = user_json["city"]
-        zip_code = user_json["zip_code"]
+        session['furniture_data'] = user_json
+        resp = make_response(jsonify({'redirect':'/show_furniture'}))
+        return resp
 
-        print(user_json)
-        return render_template('landing.html')
+@app.route('/show_furniture')
+def show_furniture():
+    furniture_json = session['furniture_data']
+    data = get_recommendations(furniture_json)
+    return render_template('furniture.html', data=data)
 
 @app.route('/job_class', methods=['GET', 'POST'])
 def get_jobs():

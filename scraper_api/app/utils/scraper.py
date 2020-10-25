@@ -52,12 +52,12 @@ class JobPosting(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def salary(self):
-        return self.ref.find('span', {'class': 'salaryText'}).text.lstrip().rstrip()
+        return self.ref.find('span', {'class': 'salaryText'}).text.strip()
 
     @property
     @lru_cache(maxsize=None)
     def company(self):
-        return self.ref.find('a', {'data-tn-element': 'companyName'}).text.lstrip().rstrip()
+        return self.ref.find('a', {'data-tn-element': 'companyName'}).text.strip()
 
     @property
     @lru_cache(maxsize=None)

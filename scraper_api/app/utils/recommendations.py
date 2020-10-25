@@ -31,14 +31,14 @@ def get_recommendations(budget=100, furnitures=['bed', 'table', 'desk', 'chair']
 
     return budget_res
 
-def get_job_recommendations(zipcode='78705', num_results=1):
-    url = 'https://www.indeed.com/jobs?q=No+Experience&l='+zipcode
+def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_results=10):
+    url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode
     html = requests.get(url).text
     s = scraper.Scraper(html)
     listing_array = s.find(scraper.JobPosting)
-    num_results = len(listing_array) if len(listing_array) > num_results else num_results
+    num_results = len(listing_array) if num_results > len(listing_array) else num_results
     res = list(map(lambda x : x.info, listing_array[:num_results]))
-    print(res)
+    # print(res)
 
 if __name__ == '__main__':
     get_job_recommendations()

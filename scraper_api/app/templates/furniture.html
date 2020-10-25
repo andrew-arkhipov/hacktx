@@ -1,27 +1,36 @@
 {% extends "template.html" %}
 {% block title %}Furniture{% endblock %}
 {% block content %}
-{{ data }}
+<style>
+    .card {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+    }
+</style>
 
-
-<div class="container-fluid">
-    {% for items in data %}
-    <div class="row flex-row flex-nowrap" style="max-width: 70vw;"></div>
-        {% for furniture in data[items] %}
-        <div class="col-md-4">
-            <div class="card">
-                <img class="card-img-top mt-4" src={{ furniture.image_href }}>
-                <div class="card-body">
-                    <h5 class="card-title">{{ furniture.title }}</h5>
-                    <p class="card-text">{{ furniture.price }}</p>
+<div class="container-fluid mt-5">
+    <div class="container d-flex justify-content-center">
+        {% for item in data %}
+        <div class="row">
+            {% for elem in data[item] %}
+            <div class="col-md-auto m-2">
+                <div class="card" style="width: 20rem;" id="search-card-main">
+                    <div class="container d-flex justify-content-center">
+                        <img class="card-img-top" src="{{ elem['image_href'] }}" style="height: 120px; width: auto;">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title" style="font-size: 14px;">{{  elem['title'] }}</h4>
+                        <p class="card-text" style="font-size: 14px; font-weight: 700;">{{ elem['price'] }}</p>
+                        <a class="btn btn-primary btn-block mt-2" href="{{ elem['href'] }}" target="_blank"
+                            style="border-radius: 12px;">Examine</a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
         {% endfor %}
     </div>
-    {% endfor %}
 </div>
-
 
 
 {% endblock %}

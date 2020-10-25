@@ -39,12 +39,12 @@ def get_recommendations(dic, num_results=10):
                 budget_res[item] = [record]
         idx += 1
 
-    return json.dumps(budget_res)
+    return budget_res
 
 
 def get_housing_recommendations(dic, num_results=5):
     city = dic['city'].replace(" ", "")
-    zipcode = dic['zipcode'].replace(" ", "")
+    zipcode = dic['zip_code'].replace(" ", "")
     budget = dic['budget']
 
     url = f'https://{city.lower()}.craigslist.org/search/apa?postal={zipcode}&maxprice={budget}'
@@ -58,10 +58,9 @@ def get_housing_recommendations(dic, num_results=5):
         info = tags[i].info
         res['apartments'].append({k: str(v) for k, v in info.items()})
         i += 1
+    return res
 
-    return json.dumps(res)
-
-def get_job_recommendations(dic, num_results=5):
+def get_job_recommendations(dic, num_results=15):
     job_type = dic['role']
     zipcode = dic['zip_code']
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode

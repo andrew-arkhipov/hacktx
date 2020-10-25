@@ -45,7 +45,7 @@ def show_jobs():
 @app.route('/housing_show')
 def show_housing():
     house_json = session['housing_data']
-    data = recommendations.get_job_recommendations(house_json)
+    data = recommendations.get_housing_recommendations(house_json)
     return render_template('housing.html', data=data)
 
 @app.route('/furniture_show')

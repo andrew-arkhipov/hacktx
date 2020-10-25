@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import concurrent.futures
-import functools
+from functools import cached_property
 
 class Listing: 
     def __init__(self, ref):

@@ -122,7 +122,7 @@ if __name__ == '__main__':
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
-    scraper = CraigslistScraper(html)
+    scraper = Scraper(html)
     listing_array = scraper.find(Housing)
     print(listing_array)
     end = time.time()

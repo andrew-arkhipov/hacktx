@@ -52,7 +52,7 @@ class CraigslistListing(InfoMixin):
         return f"{self.title}\n{self.href}\n{self.price}"
 
     def __lt__(self, other):
-        return (self.price_int * -1, self.time_ts) > (other.price_int * -1, other.time_ts)
+        return (self._price_int * -1, self._time_ts) > (other._price_int * -1, other._time_ts)
 
     @property
     @lru_cache(maxsize=None)
@@ -71,12 +71,12 @@ class CraigslistListing(InfoMixin):
     
     @property
     @lru_cache(maxsize=None)
-    def time_ts(self):
+    def _time_ts(self):
         return datetime.strptime("2020 " + self.time, "%Y %a %d %b %H:%M:%S %p")
 
     @property
     @lru_cache(maxsize=None)
-    def price_int(self):
+    def _price_int(self):
         return int(self.price[1:].replace(',',''))
 
     @property

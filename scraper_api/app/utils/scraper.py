@@ -1,6 +1,6 @@
 import requests
 import time
-import datetime
+from datetime import datetime
 import concurrent.futures
 from bs4 import BeautifulSoup 
 from functools import lru_cache
@@ -14,9 +14,7 @@ class CraigslistListing:
         return f"{self.title}\n{self.href}\n{self.price}"
 
     def __lt__(self, other):
-        get_price = lambda p: int(p[1:].replace(',','')) * -1
-        get_date = lambda d: datetime.strptime("2020 " + d, "%Y %a %d %b %H:%M:%S %p")
-        return (get_price(self.price), get_date(self.time)) > (get_price(other.price), get_date(other.time))
+        return (self.price * -1, self.time) > (other.price * -1, other.time)
 
     @property
     @lru_cache(maxsize=None)
@@ -32,11 +30,21 @@ class CraigslistListing:
     @lru_cache(maxsize=None)
     def time(self):
         return self.ref.find('time', {'class':['result-date']})['title']
+    
+    @property
+    @lru_cache(maxsize=None)
+    def time_ts(self):
+        return datetime.strptime("2020 " + self.time, "%Y %a %d %b %H:%M:%S %p")
 
     @property
     @lru_cache(maxsize=None)
     def price(self):
         return self.ref.find('span', {'class':['result-price']}).text
+
+    @property
+    @lru_cache(maxsize=None)
+    def price_int(self):
+        return int(self.price[1:].replace(',',''))
 
     @property
     @lru_cache(maxsize=None)
@@ -93,7 +101,7 @@ if __name__ == '__main__':
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
     scraper = Scraper(html)
-    listing_array = scraper.find_type(Housing)
+    listing_array = scraper.find(Housing)
     print(listing_array)
     end = time.time()
     print(end - start)

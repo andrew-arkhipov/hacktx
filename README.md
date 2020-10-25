@@ -9,6 +9,7 @@ Our search engine scrapes websites like Craigslist to find furniture and housing
 <h2>How to run the app</h2>
 
 - Start by creating a virtual environment with `python3 -m venv venv`
+- Activate the virtual environment by executing `source venv/bin/activate`
 - To install the project dependencies, run `pip3 install -r requirements.txt`
 - Next, move into the repo directory and execute `export FLASK_APP=website.py`
 - Finally, start the server by running `flask run`

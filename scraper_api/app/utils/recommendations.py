@@ -1,6 +1,7 @@
 from . import scraper
 import requests
 import collections
+import json
 
 def get_recommendations(dic, num_results=5):
     city = dic['city'].replace(" ", "")
@@ -31,10 +32,10 @@ def get_recommendations(dic, num_results=5):
             break
         for item in res:
             for k, v in res[item].items():
-                budget_res[item][k] = v
+                budget_res[item][k] = str(v)
         idx += 1
 
-    return budget_res
+    return json.dumps(budget_res)
 
 def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_results=10):
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode

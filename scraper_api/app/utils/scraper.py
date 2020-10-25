@@ -6,7 +6,45 @@ from bs4 import BeautifulSoup
 from functools import lru_cache
 
 
-class CraigslistListing: 
+class InfoMixin:
+    @property
+    def info(self):
+        res = {}
+        for k in dir(self):
+            try:
+                attr = getattr(self.__class__, k)
+            except:
+                continue
+            if isinstance(attr, property) and k not in {'body', 'info'}:
+                res[k] = attr.fget(self)
+        return res
+
+
+class Scraper:
+    def __init__(self, html):
+        self.soup = BeautifulSoup(html, 'html.parser')
+
+    def find(self, cls):
+        res = []
+        for tag in self.soup.findAll(cls.TAG, {'class': [cls.CLASS]}):
+            res.append(cls(tag))
+        return res
+
+
+class JobPosting:
+
+    TAG = 'div'
+    CLASS = 'jobsearch-SerpJobCard unifiedRow row result clickcard'
+
+    def __init__(self, ref):
+        self.ref = ref
+
+
+class CraigslistListing(InfoMixin):
+
+    TAG = 'li'
+    CLASS = 'result-row'
+
     def __init__(self, ref):
         self.ref = ref
 
@@ -14,9 +52,7 @@ class CraigslistListing:
         return f"{self.title}\n{self.href}\n{self.price}"
 
     def __lt__(self, other):
-        get_price = lambda p: int(p[1:].replace(',','')) * -1
-        get_date = lambda d: datetime.strptime("2020 " + d, "%Y %a %d %b %H:%M:%S %p")
-        return (get_price(self.price), get_date(self.time)) > (get_price(other.price), get_date(other.time))
+        return (self.price_int * -1, self.time_ts) > (other.price_int * -1, other.time_ts)
 
     @property
     @lru_cache(maxsize=None)
@@ -35,6 +71,16 @@ class CraigslistListing:
 
     @property
     @lru_cache(maxsize=None)
+    def time_ts(self):
+        return datetime.strptime("2020 " + self.time, "%Y %a %d %b %H:%M:%S %p")
+
+    @property
+    @lru_cache(maxsize=None)
+    def price_int(self):
+        return int(self.price[1:].replace(',',''))
+
+    @property
+    @lru_cache(maxsize=None)
     def price(self):
         return self.ref.find('span', {'class':['result-price']}).text
 
@@ -49,11 +95,11 @@ class CraigslistListing:
     @property
     @lru_cache(maxsize=None)
     def info(self):
-        return self.title, self.href, self.price, self.time
+        return super().info
+
 
 class Housing(CraigslistListing): 
     def __init__(self, ref):
-        self.ref = ref 
         super().__init__(ref)
 
     def __repr__(self):
@@ -69,36 +115,14 @@ class Housing(CraigslistListing):
     @property
     @lru_cache(maxsize=None)
     def info(self):
-        return self.title, self.href, self.price, self.time, self.square_foot
+        return super().info
 
 
-class Scraper:
-    def __init__(self, html):
-        self.soup = BeautifulSoup(html, 'html.parser')
-
-
-class CraigslistScraper(Scraper):
-    def __init__(self, html):
-        super().__init__(html)
-
-    def find(self, cls):
-        res = []
-        for tag in self.soup.findAll('li', {'class': ['result-row']}):
-            res.append(cls(tag))
-        return res
-
-
-class IndeedScraper(Scraper):
-    def __init__(self, html):
-        super().__init__(html)
-
-
-if __name__ == '__main__':
+if __name__ == '__main__':  
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
     scraper = Scraper(html)
-    listing_array = scraper.find_type(Housing)
-    print(listing_array)
+    listing_array = scraper.find(CraigslistListing)
     end = time.time()
     print(end - start)

@@ -1,0 +1,24 @@
+#nav-button{
+    color: black; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+#title-brand{
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 45px;
+    color: black;
+    font-weight: 600;
+}
+
+#bold-sub{
+    color: #2091F9;
+}
+
+#sub-brand{
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 400; 
+    color: gray; 
+    font-size: 28px;
+}

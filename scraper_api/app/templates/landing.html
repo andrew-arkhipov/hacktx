@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<nav class="navbar sticky-top d-flex align-items-center"
+    style="background-color: white; border-bottom: 2px solid whitesmoke">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <h1 id="title-brand">
+                <img src="{{ url_for('static', filename='paper_airplane.png') }}" style="height: 50px; width: auto;"
+                    class="mr-2">Fetch</h1>
+        </a>
+        <div>
+            <button class="btn ml-2 mr-2" id="nav-button"><span class="ml-3 mr-3"></span>Home</button>
+            <button class="btn ml-2 mr-2" id="nav-button"><span class="ml-3 mr-3">Documentation</span></button>
+            <button class="btn ml-2 mr-2" id="nav-button" style="background-color:#2091F9; color: white;"><span
+                    class="ml-3 mr-3">Get Started</span></button>
+        </div>
+    </div>
+</nav>
+<div class="jumbotron" style="background-color: white;">
+    <div class="container d-flex justify-content-center">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="container">
+                    <h1 id="title-brand" style="font-weight: 500; font-size: 48px;">What can we <b
+                            id="bold-sub">Fetch</b> for
+                        you?</h1>
+                    <p id="sub-brand" class="mt-4">Fill out your information and search no more</p>
+                    <button id="nav-button" style="background-color: #2091f9; color: white; font-size: 20px;"
+                        class="btn mt-4">Get Started</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='search.png') }}" style="height: 400px; width: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container d-flex justify-content-between">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

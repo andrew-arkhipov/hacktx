@@ -23,11 +23,11 @@ def get_recommendations(dic, num_results=5):
 
     ''' Budget calculation - Same number of items per category as long as under budget '''
     idx = 0
-    budget_res = collections.defaultdict(dict)
+    budget_res = collections.defaultdict()
     while (idx < num_results):
         total = 0
         for item in res.keys():
-            total += float(res[item]['price'].lstrip('$'))
+            total += int(res[item]['price'].lstrip('$'))
         if total > budget:
             break
         for item in res:

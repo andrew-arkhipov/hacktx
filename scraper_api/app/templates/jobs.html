@@ -1,0 +1,60 @@
+{% extends "template.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    .card {
+        border: 2px solid grey;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+        border-radius: 20px;
+    }
+
+    .card:hover {
+        box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    #title-brand {
+        font-size: 45px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        color: white;
+    }
+
+    #issue-title {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        color: black;
+        font-size: 25px;
+    }
+
+    b {
+        color: gray;
+        font-weight: 600;
+    }
+
+    .state {
+        font-family: 'Roboto', sans-serif;
+        color: white;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    .state:hover {
+        color: white;
+    }
+</style>
+{% for job in data %}
+<div class="card mt-3">
+    <div class="card-header" style="padding-top: 0px; padding-bottom: 0px;">
+        <p class="mt-3"><b style="color: black;">{{ job['title'] }}</b> commented on
+            <span class='date'>{{ job['salary'] }}</span></p>
+    </div>
+    <div class="card-body">
+        <p style="font-family: 'Roboto'; font-weight: 300;">{{ job['salary'] }}</p>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+{% block script %}
+{% endblock %}

@@ -17,43 +17,45 @@ def get_furniture():
     if request.method == 'POST':
         user_json = request.get_json()
         session['furniture_data'] = user_json
-        resp = make_response(jsonify({'redirect':'/show_furniture'}))
+        resp = make_response(jsonify({'redirect':'/furniture_show'}))
         return resp
-
-@app.route('/show_furniture')
-def show_furniture():
-    furniture_json = session['furniture_data']
-    data = recommendations.get_recommendations(furniture_json)
-    return render_template('furniture.html', data=data)
 
 @app.route('/job_class', methods=['GET', 'POST'])
 def get_jobs():
     if request.method == 'POST':
         user_json = request.get_json()
         session['job_data'] = user_json 
-        resp = make_response(jsonify({'redirect':'/show_jobs'}))
+        resp = make_response(jsonify({'redirect':'/jobs_show'}))
         return resp 
-
 
 @app.route('/housing_class', methods=['GET', 'POST'])
 def get_housing():
     if request.method == 'POST':
         user_json = request.get_json()
         session['housing_data'] = user_json 
-        resp = make_response(jsonify({'redirect':'/show_housing'}))
+        resp = make_response(jsonify({'redirect':'/housing_show'}))
+        return resp
 
-
-@app.route('/show_jobs')
+@app.route('/jobs_show')
 def show_jobs():
-    if request.method == 'POST':
-        job_json = session['job_data']
-        
+    job_json = session['job_data']
+    data = recommendations.get_job_recommendations(job_json)
+    return render_template('jobs.html', data=data)
+
+@app.route('/housing_show')
+def show_housing():
+    house_json = session['housing_data']
+    data = recommendations.get_job_recommendations(house_json)
+    return render_template('housing.html', data=data)
+
+@app.route('/furniture_show')
+def show_furniture():
+    furniture_json = session['furniture_data']
+    data = recommendations.get_recommendations(furniture_json)
+    print(data)
+    return render_template('furniture.html', data=data)
 
 
-@app.route('/getAll', methods=['GET', 'POST'])
-def get_all():
-    if request.method == 'POST':
-        pass
 
 
 

@@ -4,15 +4,17 @@
 {{ data }}
 
 
-<div class="container">
+<div class="container-fluid">
     {% for items in data %}
-    <div class="row flex-row flex-nowrap" style="max-width: 70vw;">
-        {% for furniture in items %}
-        <div class="card">
-            <img class="card-img-top mt-4" src={{ furniture.image_href }}>
-            <div class="card-body">
-                <h5 class="card-title">{{ furniture.title }}</h5>
-                <p class="card-text">{{ furniture.price }}</p>
+    <div class="row flex-row flex-nowrap" style="max-width: 70vw;"></div>
+        {% for furniture in data[items] %}
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top mt-4" src={{ furniture.image_href }}>
+                <div class="card-body">
+                    <h5 class="card-title">{{ furniture.title }}</h5>
+                    <p class="card-text">{{ furniture.price }}</p>
+                </div>
             </div>
         </div>
         {% endfor %}

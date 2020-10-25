@@ -13,11 +13,11 @@ class Listing:
 
     @cached_property
     def title(self):
-        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True)).text
+        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True).text
 
     @cached_property
     def href(self):
-        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True))['href']
+        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True)['href']
 
     @cached_property
     def time(self):
@@ -30,7 +30,7 @@ class Listing:
     @cached_property
     def body(self):
         html = requests.get(self.href).text
-        scraper = Scraper(html)
+        scraper = BeautifulSoup(html, 'html.parser')
         body = scraper.find('section', {'id':['postingbody']})
         return body.text
 

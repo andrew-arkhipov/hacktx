@@ -3,7 +3,7 @@ import requests
 import collections
 import json
 
-def get_recommendations(dic, num_results=10):
+def get_recommendations(dic, num_results=20):
     city = dic['city'].replace(" ", "")
     budget = int(dic['budget'])
     furnitures = dic['elements']
@@ -42,12 +42,12 @@ def get_recommendations(dic, num_results=10):
     return budget_res
 
 
-def get_housing_recommendations(dic, num_results=5):
+def get_housing_recommendations(dic, num_results=20):
     city = dic['city'].replace(" ", "")
     zipcode = dic['zip_code'].replace(" ", "")
     budget = dic['budget']
 
-    url = f'https://{city.lower()}.craigslist.org/search/apa?postal={zipcode}&maxprice={budget}'
+    url = f'https://{city.lower()}.craigslist.org/search/apa?maxprice={budget}'
     html = requests.get(url).text
     s = scraper.Scraper(html)
     tags = s.find(scraper.Housing)
@@ -60,7 +60,7 @@ def get_housing_recommendations(dic, num_results=5):
         i += 1
     return res
 
-def get_job_recommendations(dic, num_results=15):
+def get_job_recommendations(dic, num_results=20):
     job_type = dic['role']
     zipcode = dic['zip_code']
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode

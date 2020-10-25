@@ -60,6 +60,15 @@ class JobPosting(InfoMixin):
         salary_text = self.ref.find('span', {'class': 'salaryText'})
         return salary_text.text.strip() if salary_text != None else ''
     
+    @property
+    @lru_cache(maxsize=None)
+    def _salary(self):
+        try: 
+            salary = float(self.salary.split(' ')[0][1:])
+        except:
+            salary = 0
+        return salary
+    
     @lru_cache(maxsize=None)
     def company(self):
         return self.ref.find('a', {'data-tn-element': 'companyName'}).text.strip()

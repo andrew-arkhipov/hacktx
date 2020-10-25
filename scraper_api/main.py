@@ -6,7 +6,7 @@ from functools import cached_property
 
 class Listing: 
     def __init__(self, ref):
-        self.title = ref.find('a', {}) 
+        self.ref = ref
 
     def __repr__(self):
         return f"{self.title}\n{self.href}\n{self.price}"

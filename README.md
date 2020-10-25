@@ -3,7 +3,7 @@ An AI powered search engine aimed at streamlining job, housing, and furniture se
 <br>
 
 <h2>How it works</h2>
-Our search engine scrapes websites like Craigslist to find furniture and housing based on provided budgetary information. Then, the engine uses artificial intelligence and natural language processing to filter through the results to provide custom recommendations based on the user's needs. To wrap it all up, we provide a simple search feature for those in need of work, powered by Indeed, essentially creating a one stop shop for those who have been hit by hard times.
+Our search engine scrapes websites like Craigslist to find furniture and housing based on provided budgetary information. Then, it uses artificial intelligence and natural language processing to filter through the results to provide custom recommendations based on the user's needs. To wrap it all up, the engine provides a simple search feature for those in need of work, powered by Indeed, creating a one stop shop for those who have been hit by hard times.
 <br>
 
 <h2>How to run the app</h2>

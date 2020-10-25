@@ -76,11 +76,6 @@ class CraigslistListing(InfoMixin):
 
     @property
     @lru_cache(maxsize=None)
-    def time_ts(self):
-        return datetime.strptime("2020 " + self.time, "%Y %a %d %b %H:%M:%S %p")
-
-    @property
-    @lru_cache(maxsize=None)
     def price_int(self):
         return int(self.price[1:].replace(',',''))
 

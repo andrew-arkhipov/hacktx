@@ -1,42 +1,53 @@
 from bs4 import BeautifulSoup 
 import requests
 import time
+import concurrent.futures
+import functools
 
 class Listing: 
-
-    def __init__(self, title, href, price, time):
-        self.title = title 
-        self.href = href
-        self.price = price
-        self.time = time
+    def __init__(self, ref):
+        self.title = ref.find('a', {}) 
 
     def __repr__(self):
-        return self.title + '\n' + self.href + '\n' + self.price
+        return f"{self.title}\n{self.href}\n{self.price}"
+
+    @cached_property
+    def title(self):
+        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True)).text
+
+    @cached_property
+    def href(self):
+        return self.ref.find('a', {'class':['result-title hdrlnk']}, href=True))['href']
+
+    @cached_property
+    def time(self):
+        return self.ref.find('time', {'class':['result-date']})['title']
+
+    @cached_property
+    def price(self):
+        return self.ref.find('span', {'class':['result-price']}).text
+
+    @cached_property
+    def body(self):
+        html = requests.get(self.href).text
+        scraper = Scraper(html)
+        body = scraper.find('section', {'id':['postingbody']})
+        return body.text
+
+    @cached_property
+    def info(self):
+        return self.title, self.href, self.price, self.time
+
 
 class Scraper:
-
     def __init__(self, html):
         self.soup = BeautifulSoup(html, 'html.parser')
 
     def find_listings(self):
         res = []
-        for listing in self.soup.findAll('li', {'class':['result-row']}):
-            title, href, price, time = self.get_listing_info(listing)
-            res.append(Listing(title, href, price, time))
+        for tag in self.soup.findAll('li', {'class':['result-row']}):
+            res.append(Listing(tag))
         return res
-
-    def get_listing_info(self, listing):
-        title = listing.find('a', {'class':['result-title hdrlnk']}, href=True)
-        title_text = title.text
-        post_href = title['href']
-        time = listing.find('time', {'class':['result-date']})['title']
-        price = listing.find('span', {'class':['result-price']}).text
-    
-        return title_text, post_href, price, time
-
-    def get_listing_body(self):
-        body = self.soup.find('section', {'id':['postingbody']})
-        return body.text
 
 
 def main(url):
@@ -53,13 +64,9 @@ if __name__ == '__main__':
     scraper = Scraper(html)
     listing_array = scraper.find_listings()
 
-    body = []
-
+    bodies = []
     for listing in listing_array: 
-        url = listing.href
-        html = requests.get(url).text
-        scraper = Scraper(html)
-        body.append(scraper.get_listing_body())
+        bodies.append(listing.body)
         
     end = time.time()
     print(end - start)

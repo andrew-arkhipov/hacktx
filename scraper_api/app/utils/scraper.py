@@ -1,7 +1,7 @@
-from bs4 import BeautifulSoup 
 import requests
 import time
 import concurrent.futures
+from bs4 import BeautifulSoup 
 from functools import cached_property
 
 class Listing: 
@@ -10,6 +10,10 @@ class Listing:
 
     def __repr__(self):
         return f"{self.title}\n{self.href}\n{self.price}"
+
+    @classmethod
+    def create_listing(cls, ref):
+        return cls(ref)
 
     @cached_property
     def title(self):
@@ -44,17 +48,12 @@ class Scraper:
         self.soup = BeautifulSoup(html, 'html.parser')
 
     def find_listings(self):
-        res = []
-        for tag in self.soup.findAll('li', {'class':['result-row']}):
-            res.append(Listing(tag))
+        res = list(map(Listing.create_listing, self.soup.findAll('li', {'class': ['result-row']})))
         return res
 
 
-def main(url):
-    html = requests.get(url).text
-    scraper = Scraper(html)
-    info = scraper.find_listings()
-    print(info)
+def get_body(listing):
+    return listing.body
 
 
 if __name__ == '__main__':
@@ -64,9 +63,8 @@ if __name__ == '__main__':
     scraper = Scraper(html)
     listing_array = scraper.find_listings()
 
-    bodies = []
-    for listing in listing_array: 
-        bodies.append(listing.body)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        bodies = list(executor.map(get_body, listing_array))
         
     end = time.time()
     print(end - start)

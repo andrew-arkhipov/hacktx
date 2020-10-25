@@ -76,6 +76,7 @@ class JobPosting(InfoMixin):
     @property
     @lru_cache(maxsize=None)
     def info(self):
+        '''Returns every attribute labeled with as a property'''
         return super().info()
 
 
@@ -131,7 +132,6 @@ class CraigslistListing(InfoMixin):
         body = scraper.find('section', {'id':['postingbody']})
         return body.text
 
-
     @property
     @lru_cache(maxsize=None)
     def image_href(self):
@@ -140,10 +140,10 @@ class CraigslistListing(InfoMixin):
         image_tag = scraper.findAll('img')
         return None if not image_tag else image_tag[0]['src']
         
-
     @property
     @lru_cache(maxsize=None)
     def info(self):
+        '''Returns every attribute labeled with as a property'''
         return super().info()
 
 
@@ -167,6 +167,7 @@ class Housing(CraigslistListing):
     @property
     @lru_cache(maxsize=None)
     def info(self):
+        '''Returns every attribute labeled with as a property'''
         return super().info()
 
 

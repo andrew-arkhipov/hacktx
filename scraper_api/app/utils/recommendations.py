@@ -1,5 +1,6 @@
 from . import scraper
 import requests
+import collections
 
 def get_recommendations(num_results=20, **kwargs):
     city = kwargs['city'].replace(" ", "")
@@ -14,11 +15,12 @@ def get_recommendations(num_results=20, **kwargs):
         info = s.find(scraper.CraigslistListing)
         sorted_info = sorted(info)
         relevant_info = list(filter(lambda x: x._price_int > 5, sorted_info))
-        res[item] = relevant_info[:num_results]
+        descriptions = [tag.info for tag in relevant_info]
+        res[item] = descriptions[:num_results]
 
     ''' Budget calculation - Same number of items per category as long as under budget '''
     idx = 0
-    budget_res = {}
+    budget_res = collections.defaultdict(dict)
     while (idx < num_results):
         total = 0
         for item in res:
@@ -26,10 +28,8 @@ def get_recommendations(num_results=20, **kwargs):
         if total > budget:
             break
         for item in res:
-            if item in budget_res:
-                budget_res[item].append(res[item][idx])
-            else:
-                budget_res[item] = [res[item][idx]]
+            for desc in item:
+                budget_res[item][desc] = res[item][desc]
         idx += 1
 
     return budget_res

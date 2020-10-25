@@ -46,6 +46,7 @@ class Listing:
 
 class Housing(Listing): 
     def __init__(self, ref):
+        self.ref = ref 
         super().__init__(ref)
 
     def __repr__(self):
@@ -54,9 +55,14 @@ class Housing(Listing):
     @property
     @lru_cache(maxsize=None)
     def square_foot(self):
-        res = self.ref.find('span', {'class':['housing']}).text
-        print(res)
-        return res
+        main_tag = self.ref.find('span', {'class':['result-meta']})
+        res = self.ref.find('span', {'class':['housing']})
+        return None if not res else res.text.lstrip().rstrip()
+
+    @property
+    @lru_cache(maxsize=None)
+    def info(self):
+        return self.title, self.href, self.price, self.time, self.square_foot
 
 class Scraper:
     def __init__(self, html):
@@ -78,6 +84,7 @@ if __name__ == '__main__':
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
     scraper = Scraper(html)
-    listing_array = scraper.find_type(Listing)
+    listing_array = scraper.find_type(Housing)
+    print(listing_array)
     end = time.time()
     print(end - start)

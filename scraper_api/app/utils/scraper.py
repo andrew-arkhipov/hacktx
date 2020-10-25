@@ -14,7 +14,7 @@ class CraigslistListing:
         return f"{self.title}\n{self.href}\n{self.price}"
 
     def __lt__(self, other):
-        return (self.price * -1, self.time) > (other.price * -1, other.time)
+        return (self.price_int * -1, self.time_ts) > (other.price_int * -1, other.time_ts)
 
     @property
     @lru_cache(maxsize=None)

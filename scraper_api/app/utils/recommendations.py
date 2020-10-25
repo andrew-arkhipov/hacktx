@@ -36,7 +36,9 @@ def get_recommendations(dic, num_results=5):
 
     return budget_res
 
-def get_job_recommendations(zipcode='78705', job_type='No+Experience', num_results=10):
+def get_job_recommendations(dic, num_results=10):
+    job_type = dic['role']
+    zipcode = dic['zip_code']
     url = 'https://www.indeed.com/jobs?q='+job_type+'&l='+zipcode
     html = requests.get(url).text
     s = scraper.Scraper(html)
@@ -51,5 +53,5 @@ if __name__ == '__main__':
         'budget': '600',
         'elements': ['table', 'chair', 'bed']
     }
-    res = get_recommendations(dic)
+    res = get_recommendations(dic)  
     print(res)

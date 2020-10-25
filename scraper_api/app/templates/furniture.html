@@ -2,6 +2,26 @@
 {% block title %}Furniture{% endblock %}
 {% block content %}
 {{ data }}
+
+
+<div class="container">
+    {% for items in data %}
+    <div class="row flex-row flex-nowrap" style="max-width: 70vw;">
+        {% for furniture in items %}
+        <div class="card">
+            <img class="card-img-top mt-4" src={{ furniture.image_href }}>
+            <div class="card-body">
+                <h5 class="card-title">{{ furniture.title }}</h5>
+                <p class="card-text">{{ furniture.price }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+
+
 {% endblock %}
 {% block script %}
 {% endblock %}

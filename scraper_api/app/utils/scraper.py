@@ -65,26 +65,28 @@ class Housing(CraigslistListing):
         print(res)
         return res
 
+
 class Scraper:
     def __init__(self, html):
         self.soup = BeautifulSoup(html, 'html.parser')
 
-    def find_type(self, cls):
+
+class CraigslistScraper(Scraper):
+    def __init__(self, html):
+        super().__init__(html)
+
+    def find(self, cls):
         res = []
         for tag in self.soup.findAll('li', {'class': ['result-row']}):
             res.append(cls(tag))
         return res
 
 
-def get_body(listing):
-    return listing.body
-
-
 if __name__ == '__main__':
     start = time.time()
     url = 'https://austin.craigslist.org/d/apartments-housing-for-rent/search/apa'
     html = requests.get(url).text
-    scraper = Scraper(html)
-    listing_array = scraper.find_type(CraigslistListing)
+    cl_scraper = CraigslistScraper(html)
+    listing_array = cl_scraper.find(CraigslistListing)
     end = time.time()
     print(end - start)
